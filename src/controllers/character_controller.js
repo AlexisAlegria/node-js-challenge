@@ -50,33 +50,29 @@ export default class CharacterController extends BaseController {
   async getCharByName (req, res) {
     try {
       const { name } = req.params
-      const CharactersByName = await axios.get(`https://rickandmortyapi.com/api/character/?name=${name}`)
-      const filteredCharByName = CharactersByName.data.results.map((item) => {
-        return {
-          name: item.name,
-          status: item.status,
-          species: item.species,
-          origin: item.origin.name
-        }
-      })
-
-      return super.Success(res, { message: 'Successfully GET Characters by Name request', data: filteredCharByName })
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
-  async getCharByNameFromPostgres (req, res) {
-    try {
-      const { name } = req.params
       const CharByNameFromPostgres = await models.Character.findAll({
         where: {
           name
         }
       })
-      return super.Success(res, { message: 'Successfully GET Characters by Name request', data: CharByNameFromPostgres })
-    } catch (err) {
-      console.log(err)
+
+      if (CharByNameFromPostgres.length !== 0) {
+        return super.Success(res, { message: 'GET Characters by Name request successfully', data: CharByNameFromPostgres })
+      } else {
+        const CharactersByName = await axios.get(`https://rickandmortyapi.com/api/character/?name=${name}`)
+        const filteredCharByName = CharactersByName.data.results.map((item) => {
+          return {
+            name: item.name,
+            status: item.status,
+            species: item.species,
+            origin: item.origin.name
+          }
+        })
+        return super.Success(res, { message: 'GET Characters by Name request successfully', data: filteredCharByName })
+      }
+    } catch (error) {
+      console.log(error)
+      return super.NotFound(res, { message: 'Character Not Found' })
     }
   }
 
