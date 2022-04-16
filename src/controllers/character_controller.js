@@ -4,32 +4,11 @@ import BaseController from './base'
 const axios = require('axios')
 
 export default class CharacterController extends BaseController {
-  CharacterController () { }
+  CharacterController() { }
 
-  async get (req, res) {
+  async getMultipleChar(req, res) {
     try {
-      const { id } = req.params
-      const oneChar = await axios.get(`https://rickandmortyapi.com/api/character/${id}`)
-      const characterArray = []
-      characterArray.push(oneChar.data)
-      const filteredOneChar = characterArray.map((item) => {
-        return {
-          name: item.name,
-          status: item.status,
-          species: item.species,
-          origin: item.origin.name
-        }
-      })
-
-      return super.Success(res, { message: 'Successfully GET Single Character request', data: filteredOneChar })
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
-  async getMultipleChar (req, res) {
-    try {
-      const N = 22
+      const N = 15
       const rangeArray = [...Array(N + 1).keys()].slice(1)
       const multipleChar = await axios.get(`https://rickandmortyapi.com/api/character/${rangeArray}`)
       const filteredMultipleChar = multipleChar.data.map((item) => {
@@ -40,14 +19,14 @@ export default class CharacterController extends BaseController {
           origin: item.origin.name
         }
       })
-
-      return super.Success(res, { message: 'Successfully GET Multiple Character request', data: filteredMultipleChar })
+      const counter = filteredMultipleChar.length
+      return super.Success(res, { message: `Successfully GET Multiple Character request, count: ${counter}`, data: filteredMultipleChar })
     } catch (err) {
       console.log(err)
     }
   }
 
-  async getCharByName (req, res) {
+  async getCharByName(req, res) {
     try {
       const { name } = req.params
       const CharByNameFromPostgres = await models.Character.findAll({
@@ -72,24 +51,29 @@ export default class CharacterController extends BaseController {
       }
     } catch (error) {
       console.log(error)
-      return super.NotFound(res, { message: 'Character Not Found' })
+      return super.NotFound(res, { message: '404 Character Not Found', data: error.response.data })
     }
   }
 
-  async create (req, res) {
-    const { name, status, species, origin } = req.body
-    const newChar = await models.Character.create({
-      name,
-      status,
-      species,
-      origin
-    }, {
-      fields: ['name', 'status', 'species', 'origin']
-    })
-    return super.Success(res, { message: 'Character created successfully', data: newChar })
+  async create(req, res) {
+    try {
+      const { name, status, species, origin } = req.body
+      const newChar = await models.Character.create({
+        name,
+        status,
+        species,
+        origin
+      }, {
+        fields: ['name', 'status', 'species', 'origin']
+      })
+      return super.Success(res, { message: 'Character created successfully', data: newChar })
+    } catch (error) {
+      console.log(error)
+      return super.ErrorBadRequest(res, { message: '400 Bad Request', error: error.errors.map(item => item.message) })
+    }
   }
 
-  async show (req, res) {
+  async show(req, res) {
     return super.Success(res, '')
   }
 }
