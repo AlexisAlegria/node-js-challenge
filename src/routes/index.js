@@ -5,7 +5,7 @@ import Character from './character_routes'
 
 const routes = app.Router()
 
-routes.use('/', Home)
-routes.use('/character', Character)
+routes.use('/api/v1/', Home)
+routes.use('/api/v1/character', Character)
 
 export default routes

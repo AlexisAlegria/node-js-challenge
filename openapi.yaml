@@ -1,0 +1,61 @@
+openapi: 3.0.1
+info:
+  title: node-js-challenge
+  description: create GET and POST endpoints for Rick & Mortys API
+  version: 1.0.0
+servers:
+- url: https://localhost:5000/api/v1/character
+tags:
+- name: character
+  description: this endpoint handle all request about Character data from Rick & Morty API
+  
+paths:
+  /:
+    post:
+      tags:
+      - character
+      summary: create a new character register and save it in Postgres DB
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BodyCharacterPost'
+        required: true
+      responses:
+        200:
+          description: (OK) Character created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessCharacterPost'
+        400:
+          $ref:
+            
+components:
+  schemas:
+    BodyCharacterPost:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Character's name
+        status:
+          type: string
+          description: Current status about dead or alive
+        species:
+          type: string
+          description: Information about type of race
+        origin:
+          type: string
+          descripton: Information about origin place
+    SuccessCharacterPost:
+      type: object
+      properties:
+        respuesta:
+          type: integer
+          enum: [1]
+          description: Flag indicates if service call was succesful
+        id:
+          type: integer
+          enum: [222]
+          description: New character's id saved in Postgres DB
