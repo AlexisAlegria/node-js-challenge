@@ -45,6 +45,7 @@
     "jest": "^27.5.1",
     "nodemon": "^2.0.15",
     "sequelize-auto": "^0.6.5",
+    "superjest": "^0.1.0",
     "supertest": "^6.2.2"
   }
 }

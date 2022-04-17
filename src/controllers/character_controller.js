@@ -15,6 +15,27 @@ export default class CharacterController extends BaseController {
         return super.ErrorBadRequest(res, { message: '400 Bad Request. You should enter a positive integer number' })
       }
 
+      const completeListOfChar = await axios.get('https://rickandmortyapi.com/api/character')
+      const maxNumberOfChar = completeListOfChar.data.info.count
+
+      if (numberOfChar > maxNumberOfChar) {
+        return super.NotFound(res, { message: '404 Not Found. You exceed the maximum number of Characters' })
+      }
+
+      if (numberOfChar === '1') {
+        const firstChar = await axios.get(`https://rickandmortyapi.com/api/character/${numberOfChar}`)
+        const filteredFirstChar = {
+          name: firstChar.data.name,
+          status: firstChar.data.status,
+          species: firstChar.data.species,
+          origin: firstChar.data.origin.name
+        }
+        const firstCharArray = []
+        firstCharArray.push(filteredFirstChar)
+        const counter = numberOfChar
+        return super.Success(res, { message: `GET Multiple Character request successfully, count: ${counter}`, data: firstCharArray })
+      }
+
       const rangeArray = [...Array(parseInt(numberOfChar) + 1).keys()].slice(1)
       const multipleChar = await axios.get(`https://rickandmortyapi.com/api/character/${rangeArray}`)
       const filteredMultipleChar = multipleChar.data.map((item) => {
@@ -28,7 +49,7 @@ export default class CharacterController extends BaseController {
       const counter = filteredMultipleChar.length
       return super.Success(res, { message: `GET Multiple Character request successfully, count: ${counter}`, data: filteredMultipleChar })
     } catch (error) {
-      console.log(error)
+      return super.InternalError(res, { message: '500 Internal Server Error.', error })
     }
   }
 
