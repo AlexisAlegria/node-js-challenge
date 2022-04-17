@@ -39,6 +39,6 @@ DATABASE_PORT=5432
 localhost:5000/
             \_api/v1/
             \_api/v1/character (POST endpoint)
-                        \_/listpfcharacters/ (GET endpoint, retrieve N characters)
-                        \_/name (GET endpoint, retrieve character based on "name" parameter)
+                        \_/listofcharacters/{numberOfChar} (GET endpoint, retrieve N characters)
+                        \_/name/{name} (GET endpoint, retrieve character based on "name" parameter)
 ```
