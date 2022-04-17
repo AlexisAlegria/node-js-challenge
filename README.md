@@ -22,7 +22,7 @@ npm install --save-dev jest
 npm install -D jest supertest
 ```
 
-4. create .env file to set Postgres DB parameters
+4. create .env file to set Postgres DB parameters :white_check_mark:
 
 ```sh
 DATABASE_URI=postgres://postgres:2220@127.0.0.1:5432/pinflag_challenge
