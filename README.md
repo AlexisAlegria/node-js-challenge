@@ -2,7 +2,7 @@
 
 <h2>One click installation:</h2>
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://github.com/AlexisAlegria/node-js-challenge.git)
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io#https://github.com/AlexisAlegria/node-js-challenge.git)
 
 ## Local Installation
 
