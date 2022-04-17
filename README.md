@@ -36,9 +36,9 @@ DATABASE_PORT=5432
 ## How are the endpoints organized?
 
 ```sh
-**localhost:5000/
-|**api/v1/
-|**api/v1/character (POST endpoint)
-|**/listpfcharacters/ (GET endpoint, retrieve N characters)
-|\_\_/name (GET endpoint, retrieve character based on "name" parameter)
+localhost:5000/
+            \_api/v1/
+            \_api/v1/character (POST endpoint)
+                        \_/listpfcharacters/ (GET endpoint, retrieve N characters)
+                        \_/name (GET endpoint, retrieve character based on "name" parameter)
 ```
