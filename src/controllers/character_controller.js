@@ -64,15 +64,16 @@ export default class CharacterController extends BaseController {
   async create (req, res) {
     try {
       const { name, status, species, origin } = req.body
+
+      if (!name || !status || !species || !origin) {
+        return super.ErrorBadRequest(res, { message: '400 Bad Request. All fields are required' })
+      }
+
       const characterExists = await models.Character.findOne({
         where: {
           name
         }
       })
-
-      if (!name || !status || !species || !origin) {
-        return super.ErrorBadRequest(res, { message: '400 Bad Request. All fields are required' })
-      }
 
       if (characterExists) {
         return super.ErrorBadRequest(res, { message: '400 Bad Request. Character already exists!' })
@@ -91,9 +92,5 @@ export default class CharacterController extends BaseController {
       console.log(error)
       return super.InternalError(res, { message: '500 Internal Server Error.', error })
     }
-  }
-
-  async show (req, res) {
-    return super.Success(res, '')
   }
 }
