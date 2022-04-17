@@ -24,17 +24,21 @@ npm install -D jest supertest
 
 3. create .env file to set Postgres DB parameters
 
+```sh
 DATABASE_URI=postgres://postgres:2220@127.0.0.1:5432/pinflag_challenge
 DATABASE_USERNAME=postgres
 DATABASE_PASSWORD=AlexisAlegriaXXXX
 DATABASE_NAME=pinflag_challenge
 DATABASE_HOST=127.0.0.1
 DATABASE_PORT=5432
+```
 
 ## How are the endpoints organized?
 
+```sh
 **localhost:5000/
 |**api/v1/
 |**api/v1/character (POST endpoint)
 |**/listpfcharacters/ (GET endpoint, retrieve N characters)
 |\_\_/name (GET endpoint, retrieve character based on "name" parameter)
+```
