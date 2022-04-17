@@ -1,6 +1,6 @@
 # PINFLAG NODE JS CHALLENGE
 
-## Local Installation
+## Local Installation  :computer:
 
 1. This backend app was developed with `node.js` version v16+ and jest v27.
 
@@ -27,13 +27,13 @@ npm install -D jest supertest
 ```sh
 DATABASE_URI=postgres://postgres:2220@127.0.0.1:5432/pinflag_challenge
 DATABASE_USERNAME=postgres
-DATABASE_PASSWORD=AlexisAlegriaXXXX
+DATABASE_PASSWORD=AlexisXXXXXXXXXXXXXXXX
 DATABASE_NAME=pinflag_challenge
 DATABASE_HOST=127.0.0.1
 DATABASE_PORT=5432
 ```
 
-## How are the endpoints organized?
+## How are the endpoints organized? 🔥
 
 ```sh
 localhost:5000/
