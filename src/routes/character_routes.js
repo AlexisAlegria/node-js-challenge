@@ -5,7 +5,7 @@ import CharacterController from '../controllers/character_controller'
 
 const routes = app.Router()
 
-routes.get('/', new CharacterController().getMultipleChar)
+routes.get('/listofcharacters/:numberOfChar', new CharacterController().getMultipleChar)
 routes.get('/name/:name', new CharacterController().getCharByName)
 routes.post('/', new CharacterController().create)
 

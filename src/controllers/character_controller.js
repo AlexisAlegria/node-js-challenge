@@ -4,12 +4,18 @@ import BaseController from './base'
 const axios = require('axios')
 
 export default class CharacterController extends BaseController {
-  CharacterController() { }
+  CharacterController () { }
 
-  async getMultipleChar(req, res) {
+  async getMultipleChar (req, res) {
     try {
-      const N = 15
-      const rangeArray = [...Array(N + 1).keys()].slice(1)
+      const { numberOfChar } = req.params
+      const regex = /[^0-9]/
+
+      if (numberOfChar <= 0 || regex.test(numberOfChar) === true) {
+        return super.ErrorBadRequest(res, { message: '400 Bad Request. You should enter a positive integer number' })
+      }
+
+      const rangeArray = [...Array(parseInt(numberOfChar) + 1).keys()].slice(1)
       const multipleChar = await axios.get(`https://rickandmortyapi.com/api/character/${rangeArray}`)
       const filteredMultipleChar = multipleChar.data.map((item) => {
         return {
@@ -20,13 +26,13 @@ export default class CharacterController extends BaseController {
         }
       })
       const counter = filteredMultipleChar.length
-      return super.Success(res, { message: `Successfully GET Multiple Character request, count: ${counter}`, data: filteredMultipleChar })
-    } catch (err) {
-      console.log(err)
+      return super.Success(res, { message: `GET Multiple Character request successfully, count: ${counter}`, data: filteredMultipleChar })
+    } catch (error) {
+      console.log(error)
     }
   }
 
-  async getCharByName(req, res) {
+  async getCharByName (req, res) {
     try {
       const { name } = req.params
       const CharByNameFromPostgres = await models.Character.findAll({
@@ -55,9 +61,23 @@ export default class CharacterController extends BaseController {
     }
   }
 
-  async create(req, res) {
+  async create (req, res) {
     try {
       const { name, status, species, origin } = req.body
+      const characterExists = await models.Character.findOne({
+        where: {
+          name
+        }
+      })
+
+      if (!name || !status || !species || !origin) {
+        return super.ErrorBadRequest(res, { message: '400 Bad Request. All fields are required' })
+      }
+
+      if (characterExists) {
+        return super.ErrorBadRequest(res, { message: '400 Bad Request. Character already exists!' })
+      }
+
       const newChar = await models.Character.create({
         name,
         status,
@@ -69,11 +89,11 @@ export default class CharacterController extends BaseController {
       return super.Success(res, { message: 'Character created successfully', data: newChar })
     } catch (error) {
       console.log(error)
-      return super.ErrorBadRequest(res, { message: '400 Bad Request', error: error.errors.map(item => item.message) })
+      return super.InternalError(res, { message: '500 Internal Server Error.', error })
     }
   }
 
-  async show(req, res) {
+  async show (req, res) {
     return super.Success(res, '')
   }
 }
