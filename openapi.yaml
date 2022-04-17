@@ -1,13 +1,13 @@
 openapi: 3.0.1
 info:
   title: node-js-challenge
-  description: create GET and POST endpoints for Rick & Mortys API
+  description: create GET and POST endpoints for a Postgres DB and Rick & Mortys API
   version: 1.0.0
 servers:
-- url: https://localhost:5000/api/v1/character
+- url: https://localhost:5000/api/v1/character/
 tags:
 - name: character
-  description: this endpoint handle all request about Character data from Rick & Morty API and Postgres DB
+  description: this endpoint handle all requests about Character data from Rick & Morty API and Postgres DB
   
 paths:
   /:
@@ -15,6 +15,7 @@ paths:
       tags:
       - character
       summary: create a new character register and save it in Postgres DB
+      
       requestBody:
         content:
           application/json:
@@ -35,13 +36,60 @@ paths:
         500:
           $ref: '#/components/responses/InternalError'
           
-    /listofcharacters/{numberOfChar}:
-      get:
-        tags:
-          - charcater
-        summary: retrieve a list of N Characters with the following data "name", "status", "species" and "origin" from Rick & Morty API
-        parameters:
-        - numberofChar: numberOfChar
+  /listofcharacters/{numberOfChar}:
+    get:
+      tags:
+        - charcater
+      summary: retrieve a list of N Characters with the following data "name", "status", "species" and "origin" from Rick & Morty API
+      parameters:
+      - name: numberOfChar  
+        in: path
+        description: sets the number of Charcaters that user requests
+        required: true
+        schema:
+          type: string
+          
+      response:
+        200:
+          description: GET Multiple Character request successfully
+          content:
+            application/json:
+              schema:
+                $ref:'#/components/schemas/SuccessListOfCharacters'
+        400:
+          $ref: '#/components/responses/ErrorBadRequest'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/InternalError'
+          
+  /name/{name}:
+    get:
+      tags:
+        - charcater
+      summary: search for a Character based on "name" parameter, first on Postgres DB. If no results, then look for it on Rick & Marty API. The result contains the following data "name", "status", "species" and "origin".
+      parameters:
+      - name: name
+        in: path
+        description: sets the Character's name requested
+        required: true
+        schema:
+          type: string
+          
+      response:
+        200:
+          description: GET Character's name request successfully
+          content:
+            application/json:
+              schema:
+                $ref:'#/components/schemas/SuccessCharacterName'
+        400:
+          $ref: '#/components/responses/ErrorBadRequest'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/InternalError'
+          
           
 components:
   responses:
@@ -68,6 +116,7 @@ components:
         origin:
           type: string
           descripton: Information about origin place
+          
     SuccessCharacterPost:
       type: object
       properties:
@@ -79,3 +128,36 @@ components:
           type: integer
           enum: [2]
           description: New character's id saved in Postgres DB
+          
+    SuccessListOfCharacters:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Character's name
+        status:
+          type: string
+          description: Current status about dead or alive
+        species:
+          type: string
+          description: Information about type of race
+        origin:
+          type: string
+          descripton: Information about origin place
+      
+    SuccessCharacterName:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Character's name
+        status:
+          type: string
+          description: Current status about dead or alive
+        species:
+          type: string
+          description: Information about type of race
+        origin:
+          type: string
+          descripton: Information about origin place
+      
