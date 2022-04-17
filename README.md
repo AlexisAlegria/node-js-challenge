@@ -1,12 +1,12 @@
 # PINFLAG NODE JS CHALLENGE
 
-## Local Installation  :computer:
+## Local Installation :computer:
 
 1. This backend app was developed with `node.js` version v16+ and jest v27.
 
 2. Clone or download this repository. Once you finish downloading, you will move to new folder
 
-3. Then install the following npm packages:
+3. Then install the following npm packages: :eyes:
 
 ```sh
 npm install express pg pg-hstore sequelize morgan @babel/polyfill
@@ -22,7 +22,7 @@ npm install --save-dev jest
 npm install -D jest supertest
 ```
 
-3. create .env file to set Postgres DB parameters
+4. create .env file to set Postgres DB parameters
 
 ```sh
 DATABASE_URI=postgres://postgres:2220@127.0.0.1:5432/pinflag_challenge
@@ -39,6 +39,10 @@ DATABASE_PORT=5432
 localhost:5000/
             \_api/v1/
             \_api/v1/character (POST endpoint)
-                        \_/listofcharacters/{numberOfChar} (GET endpoint, retrieve N characters)
-                        \_/name/{name} (GET endpoint, retrieve character based on "name" parameter)
+                        \_ /listofcharacters/{numberOfChar} (GET endpoint, retrieve N characters)
+                        \_ /name/{name} (GET endpoint, retrieve character based on "name" parameter)
 ```
+
+## Where are endpoints docs? :book:
+
+The details and description of the the three above endpoints were saved in "openapi.yaml" of this repo.
