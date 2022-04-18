@@ -33,6 +33,12 @@ DATABASE_HOST=127.0.0.1
 DATABASE_PORT=5432
 ```
 
+5. to run the Backend application:
+
+```sh
+npm start
+```
+
 ## How are the endpoints organized? 🔥
 
 ```sh
